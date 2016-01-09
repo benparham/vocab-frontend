@@ -1,6 +1,13 @@
 'use strict'
 
-var React = require('react');
+var React = window.React = require('react');
+var router = require('./router.jsx');
 var App = require('./components/App/App.comp.jsx');
 
-React.render(<App/>, document.getElementById('appContainer'));
+function renderApp() {
+  router.run(function(Handler) {
+    React.render(<Handler/>, document.getElementById('appContainer'));
+  });
+}
+
+renderApp();
