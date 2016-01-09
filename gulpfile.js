@@ -18,10 +18,14 @@ var paths = {
   server: {
     entry: './server/main.js',
     js: './server/*.js'
+  },
+  apilib: {
+    entry: './assets/apilib/main.js',
+    js: './assets/apilib/*.js'
   }
 };
 
-var app_builder = function builder() {
+var app_builder = function() {
   return browserify({
     entries: paths.app.entry,
     extensions: ['.jsx']
@@ -33,8 +37,22 @@ var app_builder = function builder() {
     .pipe(rename('bundle.js'));
 };
 
+var apilib_builder = function() {
+  return browserify({
+    entries: paths.apilib.entry,
+  })
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(rename('apilib.js'));
+};
+
 gulp.task('build-app', function() {
   return app_builder()
+    .pipe(gulp.dest('./public/js/'));
+});
+
+gulp.task('build-apilib', function() {
+  return apilib_builder()
     .pipe(gulp.dest('./public/js/'));
 });
 
@@ -44,7 +62,7 @@ gulp.task('less', function() {
     .pipe(gulp.dest('./public/css/'));
 });
 
-gulp.task('build', ['build-app', 'less']);
+gulp.task('build', ['build-app', 'build-apilib', 'less']);
 
 function watch() {
   process.stdout.write("Watching...\n");
@@ -56,6 +74,7 @@ function watch() {
   });
 
   gulp.watch(paths.app.js, ['build-app']);
+  gulp.watch(paths.apilib.js, ['build-apilib']);
   gulp.watch(paths.app.css, ['less']);
   gulp.watch(paths.server.js);
 }
