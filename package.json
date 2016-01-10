@@ -17,19 +17,20 @@
     "url": "https://github.com/benparham/vocab-frontend/issues"
   },
   "dependencies": {
-    "cookies-js": "1.2.1",
-    "express": "^4.13.3",
-    "react": "^0.13.3",
-    "react-router": "^0.13.3",
-    "connect-history-api-fallback": "1.1.0",
     "browserify": "^11.0.1",
+    "connect-history-api-fallback": "1.1.0",
+    "cookies-js": "1.2.1",
     "envify": "^3.4.0",
+    "express": "^4.13.3",
+    "flux": "^2.1.1",
     "gulp": "^3.9.0",
     "gulp-less": "^3.0.3",
     "gulp-nodemon": "^2.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.6",
+    "react": "^0.13.3",
     "reactify": "^1.1.1",
+    "react-router": "^0.13.3",
     "vinyl-source-stream": "^1.1.0"
   }
 }

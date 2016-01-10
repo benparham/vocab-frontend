@@ -1,6 +1,6 @@
 'use strict'
 
-var API_BASE_URL = 'https://localhost:8000/';
+var API_BASE_URL = 'http://localhost:8000/';
 
 var Cookies = require('cookies-js');
 
@@ -17,8 +17,13 @@ window.Vocab = (function() {
 
     login: function(username, password) {
       return new Promise(function(resolve, reject) {
+        // reject({status: 0, message: 'Test reject message'});
+        // return;
+
         var req = new XMLHttpRequest();
         req.open('POST', API_BASE_URL + 'token/');
+        req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        req.setRequestHeader('Accept', 'application/json');
 
         req.onload = function() {
           if (req.status == 200) {
@@ -69,6 +74,8 @@ window.Vocab = (function() {
         var req = new XMLHttpRequest();
         req.open('GET', API_BASE_URL + 'entries/');
         req.setRequestHeader('Authorization', 'Token ' + authToken);
+        req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        req.setRequestHeader('Accept', 'application/json');
 
         req.onload = function() {
           if (req.status == 200) {

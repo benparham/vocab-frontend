@@ -20,6 +20,10 @@ var Home = React.createClass({
     );
   },
 
+  logout: function() {
+    Vocab.logout();
+  },
+
   render: function() {
     console.log('Entries:');
     console.log(this.state.entries);
@@ -27,6 +31,7 @@ var Home = React.createClass({
     return (
       <div id='home'>
         Home Screen
+        <button id='logout' onClick={this.logout}>Logout</button>
       </div>
     );
   }

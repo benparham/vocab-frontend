@@ -12,10 +12,10 @@ var NotFound = require('./components/NotFound/NotFound.comp.jsx');
 
 var routes = (
 	<Route>
-		<Route handler={App}>
+		<Route path='/' name='app' handler={App}>
 			<DefaultRoute name='home' handler={Home}/>
-      <Route name='login' handler={Login}/>
 		</Route>
+		<Route path='/login' name='login' handler={Login}/>
 		<NotFoundRoute handler={NotFound}/>
 	</Route>
 );
