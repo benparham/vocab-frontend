@@ -17,6 +17,10 @@ var Login = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    React.findDOMNode(this.refs.usernameInput).focus();
+  },
+
   handleUsernameChange: function(event) {
     this.setState({
       usernameVal: event.target.value
@@ -57,6 +61,7 @@ var Login = React.createClass({
             id='username'
             type='text'
             placeholder='Username'
+            ref='usernameInput'
             value={this.state.usernameVal}
             onChange={this.handleUsernameChange}
             onKeyDown={this.handleKeyDown}/>
@@ -68,7 +73,7 @@ var Login = React.createClass({
             onChange={this.handlePasswordChange}
             onKeyDown={this.handleKeyDown}/>
           <button id='submit' onClick={this.handleLoginClick}>Login</button>
-          <p>{this.state.message}</p>
+          <p id='message'>{this.state.message}</p>
       </div>
     );
   }
