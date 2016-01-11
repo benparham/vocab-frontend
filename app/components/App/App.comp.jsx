@@ -5,7 +5,8 @@ var RouteHandler = require('react-router').RouteHandler;
 var Navigation = require('react-router').Navigation;
 var SessionStore = require('../../stores/Session.store.js');
 
-var SessionWidget = require('../SessionWidget/SessionWidget.comp.jsx');
+// var SessionWidget = require('../SessionWidget/SessionWidget.comp.jsx');
+var Header = require('../Header/Header.comp.jsx');
 
 var App = React.createClass({
   statics: {
@@ -43,7 +44,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div id='application'>
-        <SessionWidget session={this.state.session}/>
+        <Header session={this.state.session}/>
         <RouteHandler/>
       </div>
     );

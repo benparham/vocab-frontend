@@ -1,3 +1,5 @@
+@import 'reset.less';
+
 // =============== COLORS ================
 @colorWhite: #FFFFFF;
 @colorTheme: #F6546A;
@@ -18,14 +20,12 @@
 
   input {
     display: block;
-    border: none;
-    border-bottom: solid 2px #C9C9C9;
-    outline: none;
+    border-bottom: solid 2px fade(@colorTheme, 50%);
     font-size: 2rem;
     color: @colorTheme;
 
     &:focus {
-      border-bottom: solid 2px @colorTheme;
+      border-bottom: solid 3px @colorTheme;
     }
   }
 
@@ -37,10 +37,9 @@
     background-color: @colorWhite;
     border-radius: .5rem;
     border: 3px solid @colorTheme;
-    outline: none;
 
     &:hover {
-      cursor: pointer;
+      // cursor: pointer;
       color: @colorWhite;
       background-color: @colorTheme;
     }
@@ -51,6 +50,46 @@
 
     &:after {
       content: '\00a0';
+    }
+  }
+}
+
+
+// ============== HEADER
+
+#header {
+  display: flex;
+  flex-flow: row;
+  color: @colorWhite;
+  background-color: @colorTheme;
+
+  .navButton {
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex: 0 0 auto;
+    margin: 0 .5rem;
+  }
+
+  #wordInput {
+    flex: 1 1 100%;
+    margin: 5px 1rem;
+    font-size: 1rem;
+    padding: .5rem 1rem;
+  }
+
+  #sessionWidget {
+    flex: 0 0 auto;
+    display: flex;
+    flex-flow: row;
+
+    #username {
+      font-size: 1rem;
+    }
+
+    #logout {
+      font-size: 1rem;
+      font-weight: bold;
+      margin: 0 1rem;
     }
   }
 }

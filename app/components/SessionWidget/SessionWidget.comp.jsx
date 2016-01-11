@@ -2,13 +2,16 @@
 
 var React = require('react');
 
+var SessionActions = require('../../actions/Session.actions.js');
+
 var SessionWidget = React.createClass({
   propTypes: {
     session: React.PropTypes.object.isRequired
   },
 
   handleLogoutClick: function() {
-    console.log('Will logout here');
+    Vocab.logout();
+    SessionActions.dropSession();
   },
 
   render: function() {
@@ -16,7 +19,7 @@ var SessionWidget = React.createClass({
     return (
       <div id='sessionWidget'>
         <p id='username'>{session.username}</p>
-        <button id='logout' onClick={this.handleLogoutClick}></button>
+        <button id='logout' onClick={this.handleLogoutClick}>Logout</button>
       </div>
     );
   }
