@@ -5,7 +5,6 @@ var RouteHandler = require('react-router').RouteHandler;
 var Navigation = require('react-router').Navigation;
 var SessionStore = require('../../stores/Session.store.js');
 
-// var SessionWidget = require('../SessionWidget/SessionWidget.comp.jsx');
 var Header = require('../Header/Header.comp.jsx');
 
 var App = React.createClass({
