@@ -12,14 +12,54 @@ window.Vocab = (function() {
     Cookies.set('authToken', token);
   }
 
+  function _send_request(method, url) {
+    return new Promise(function(resolve, reject) {
+      if (!authToken) {
+        reject({
+          status: 401,
+          message: 'Not Authenticated'
+        });
+        return;
+      }
+
+      var req = new XMLHttpRequest();
+      req.open(method, url);
+      req.setRequestHeader('Authorization', 'Token ' + authToken);
+      req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      req.setRequestHeader('Accept', 'application/json');
+
+      req.onload = function() {
+        if (req.status == 200) {
+          var result = JSON.parse(req.response);
+          resolve({
+            status: req.status,
+            message: req.statusText,
+            response: result
+          });
+        } else {
+          reject({
+            status: req.status,
+            message: req.statusText
+          });
+        }
+      };
+
+      req.onerror = function() {
+        reject({
+          status: 0,
+          message: 'Network Error'
+        })
+      };
+
+      req.send();
+    });
+  }
+
   return {
     hasToken: function() {return !!authToken;},
 
     login: function(username, password) {
       return new Promise(function(resolve, reject) {
-        // reject({status: 0, message: 'Test reject message'});
-        // return;
-
         var req = new XMLHttpRequest();
         req.open('POST', API_BASE_URL + 'token/');
         req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -61,133 +101,12 @@ window.Vocab = (function() {
       Cookies.expire('authToken');
     },
 
-    getAllEntries: function() {
-      return new Promise(function(resolve, reject) {
-        if (!authToken) {
-          reject({
-            status: 401,
-            message: 'Not Authenticated'
-          });
-          return;
-        }
-
-        var req = new XMLHttpRequest();
-        req.open('GET', API_BASE_URL + 'entries/');
-        req.setRequestHeader('Authorization', 'Token ' + authToken);
-        req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        req.setRequestHeader('Accept', 'application/json');
-
-        req.onload = function() {
-          if (req.status == 200) {
-            var result = JSON.parse(req.response);
-            resolve({
-              status: req.status,
-              message: req.statusText,
-              response: result
-            });
-          } else {
-            reject({
-              status: req.status,
-              message: req.statusText
-            });
-          }
-        };
-
-        req.onerror = function() {
-          reject({
-            status: 0,
-            message: 'Network Error'
-          })
-        };
-
-        req.send();
-      });
+    getSession: function() {
+      return _send_request('GET', API_BASE_URL + 'user/');
     },
 
-    // get: function(urlPath, params) {
-    //   return new Promise(function(resolve, reject) {
-    //     var req = new XMLHttpRequest();
-    //     req.open('GET', _buildUrl(urlPath, params));
-    //     if (authToken) {
-    //       req.setRequestHeader('Authorization', 'Bearer ' + authToken);
-    //     }
-    //     _handler(req, resolve, reject);
-    //     req.send();
-    //   });
-    // },
-    //
-    // getFile: function(url) {
-    //   return new Promise(function(resolve, reject) {
-    //     var req = new XMLHttpRequest();
-    //     req.open('GET', url);
-    //
-    //     req.onload = function() {
-    //       if (_statusIsSuccess(req.status)) {
-    //         resolve({
-    //           status: req.status,
-    //           message: req.statusText,
-    //           response: req.response
-    //         });
-    //       } else {
-    //         reject({
-    //           status: req.status,
-    //           message: req.statusText,
-    //           response: req.response
-    //         });
-    //       }
-    //     }
-    //
-    //     req.onerror = function() {
-    //       reject({
-    //         status: 0,
-    //         message: 'Network Error'
-    //       });
-    //     }
-    //     req.send();
-    //   });
-    // },
-    //
-    // post: function(urlPath, data, params) {
-    //   return new Promise(function(resolve, reject) {
-    //     var req = new XMLHttpRequest();
-    //     req.open('POST', _buildUrl(urlPath, params));
-    //     if (authToken) {
-    //       req.setRequestHeader('Authorization', 'Bearer ' + authToken);
-    //     }
-    //     req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    //     _handler(req, resolve, reject);
-    //     req.send(JSON.stringify(data));
-    //   });
-    // },
-    //
-    // postFormData: function(urlPath, data, params) {
-    //   return new Promise(function(resolve, reject) {
-    //     var req = new XMLHttpRequest();
-    //     req.open('POST', _buildUrl(urlPath, params));
-    //     if (authToken) {
-    //       req.setRequestHeader('Authorization', 'Bearer ' + authToken);
-    //     }
-    //     _handler(req, resolve, reject);
-    //     var formData = new FormData();
-    //     for (var key in data) {
-    //       formData.append(key, data[key]);
-    //     }
-    //     req.send(formData);
-    //   });
-    // },
-    //
-    // // TODO: this is not DRY. Should merge with get/post/etc,
-    // // and pass method as argument
-    // delete: function(urlPath, params) {
-    //   return new Promise(function(resolve, reject) {
-    //     var req = new XMLHttpRequest();
-    //     req.open('DELETE', _buildUrl(urlPath, params));
-    //     if (authToken) {
-    //       req.setRequestHeader('Authorization', 'Bearer ' + authToken);
-    //     }
-    //     _handler(req, resolve, reject);
-    //     req.send();
-    //   });
-    // }
+    getAllEntries: function() {
+      return _send_request('GET', API_BASE_URL + 'entries/');
+    },
   }
 })();

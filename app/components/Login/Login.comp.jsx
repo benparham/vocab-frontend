@@ -32,13 +32,10 @@ var Login = React.createClass({
   handleLoginClick: function() {
     Vocab.login(this.state.usernameVal, this.state.passwordVal).then(
       function(result) {
-        console.log('Login success!');
-        console.log(result);
         SessionActions.loadSession(result.response);
         this.transitionTo('app');
       }.bind(this),
       function(err) {
-        console.log(err.status);
         var newMessage = (err.status == 0) ? err.message : 'Invalid username/password';
         if (this.isMounted()) {
           this.setState({message: newMessage});

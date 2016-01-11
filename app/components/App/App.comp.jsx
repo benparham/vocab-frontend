@@ -5,12 +5,12 @@ var RouteHandler = require('react-router').RouteHandler;
 var Navigation = require('react-router').Navigation;
 var SessionStore = require('../../stores/Session.store.js');
 
+var SessionWidget = require('../SessionWidget/SessionWidget.comp.jsx');
+
 var App = React.createClass({
   statics: {
     willTransitionTo: function(transition) {
       if (!SessionStore.hasSession()) {
-        console.log('Transitioning to login...');
-
         transition.redirect('login');
       }
     }
@@ -41,12 +41,9 @@ var App = React.createClass({
   },
 
   render: function() {
-    console.log('App session data:');
-    console.log(this.state.session);
-
     return (
       <div id='application'>
-        Hello World Application
+        <SessionWidget session={this.state.session}/>
         <RouteHandler/>
       </div>
     );

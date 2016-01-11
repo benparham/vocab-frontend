@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react');
+var SessionActions = require('../../actions/Session.actions.js');
 
 var Home = React.createClass({
   getInitialState: function() {
@@ -22,6 +23,7 @@ var Home = React.createClass({
 
   logout: function() {
     Vocab.logout();
+    SessionActions.dropSession();
   },
 
   render: function() {
