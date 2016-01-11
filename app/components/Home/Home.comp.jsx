@@ -2,27 +2,22 @@
 
 var React = require('react');
 
+var EntryStore = require('../../stores/Entry.store.js');
+
 var Home = React.createClass({
-  getInitialState: function() {
-    return {entries: []};
-  },
+  _onEntryChange: function() { this.forceUpdate(); },
 
   componentDidMount: function() {
-    Vocab.getAllEntries().then(
-      function(result) {
-        console.log('Retrieved entries:');
-        console.log(result);
-      },
-      function(err) {
-        console.log('Error retrieving entries:');
-        console.log(err);
-      }
-    );
+    EntryStore.addChangeListener(this._onEntryChange);
+  },
+
+  componentWillUnmount: function() {
+    EntryStore.removeChangeListener(this._onEntryChange);
   },
 
   render: function() {
     console.log('Entries:');
-    console.log(this.state.entries);
+    console.log(EntryStore.getEntryData());
 
     return (
       <div id='home'>

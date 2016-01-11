@@ -3,6 +3,7 @@
 var React = window.React = require('react');
 var router = require('./router.jsx');
 var App = require('./components/App/App.comp.jsx');
+
 var SessionActions = require('./actions/Session.actions.js');
 
 function renderApp() {

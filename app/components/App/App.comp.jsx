@@ -3,7 +3,9 @@
 var React = require('react');
 var RouteHandler = require('react-router').RouteHandler;
 var Navigation = require('react-router').Navigation;
+
 var SessionStore = require('../../stores/Session.store.js');
+var EntryActions = require('../../actions/Entry.actions.js');
 
 var Header = require('../Header/Header.comp.jsx');
 
@@ -34,6 +36,18 @@ var App = React.createClass({
 
   componentDidMount: function() {
     SessionStore.addChangeListener(this._onSessionChange);
+
+    Vocab.getAllEntries().then(
+      function(result) {
+        console.log('Retrieved entries:');
+        console.log(result);
+        EntryActions.loadEntries(result.response);
+      },
+      function(err) {
+        console.log('Error retrieving entries:');
+        console.log(err);
+      }
+    );
   },
 
   componentWillUnmount: function() {
