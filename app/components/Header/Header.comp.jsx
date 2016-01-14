@@ -20,19 +20,19 @@ var Header = React.createClass({
     return (
       <div id='header'>
         <button
-          id='home'
+          id='headerHome'
           className='navButton'
           onClick={this.handleNavClick.bind(this, 'home')}>
           Home
         </button>
         <button
-          id='dashboard'
+          id='headerDashboard'
           className='navButton'
           onClick={this.handleNavClick.bind(this, 'dashboard')}>
           Dashboard
         </button>
         <input
-          id='wordInput'
+          id='headerWordInput'
           type='text'
           placeholder='Add Word'/>
         <SessionWidget session={this.props.session}/>

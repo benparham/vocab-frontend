@@ -1,8 +1,20 @@
 @import 'reset.less';
 
-// =============== COLORS ================
+// =============== COLORS
 @colorWhite: #FFFFFF;
 @colorTheme: #F6546A;
+
+
+// ================= CONSTANTS
+@headerHeight: 4rem;
+@mainHeight: ~'calc(100vh - @{headerHeight})';
+
+// ============== GENERAL
+
+#main {
+  margin-top: @headerHeight;
+  min-height: @mainHeight;
+}
 
 
 // ============== LOGIN
@@ -58,8 +70,15 @@
 // ============== HEADER
 
 #header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: @headerHeight;
   display: flex;
   flex-flow: row;
+  align-items: center;
   color: @colorWhite;
   background-color: @colorTheme;
 
@@ -70,7 +89,7 @@
     margin: 0 .5rem;
   }
 
-  #wordInput {
+  #headerWordInput {
     flex: 1 1 100%;
     margin: 5px 1rem;
     font-size: 1rem;
@@ -81,9 +100,12 @@
     flex: 0 0 auto;
     display: flex;
     flex-flow: row;
+    align-items: center;
 
     #username {
       font-size: 1rem;
+      font-weight: bold;
+      font-style: italic;
     }
 
     #logout {
@@ -91,5 +113,28 @@
       font-weight: bold;
       margin: 0 1rem;
     }
+  }
+}
+
+
+// ================ HOME
+
+#home {
+  height: @mainHeight;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 1rem;
+
+  #homeWord, #homeDefinition {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  #homeWord {
+    height: 50%;
+    color: @colorTheme;
+    font-weight: bold;
   }
 }

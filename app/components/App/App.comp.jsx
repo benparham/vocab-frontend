@@ -39,8 +39,6 @@ var App = React.createClass({
 
     Vocab.getAllEntries().then(
       function(result) {
-        console.log('Retrieved entries:');
-        console.log(result);
         EntryActions.loadEntries(result.response);
       },
       function(err) {
@@ -58,7 +56,9 @@ var App = React.createClass({
     return (
       <div id='application'>
         <Header session={this.state.session}/>
-        <RouteHandler/>
+        <div id='main'>
+          <RouteHandler/>
+        </div>
       </div>
     );
   }

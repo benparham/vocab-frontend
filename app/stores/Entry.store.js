@@ -11,28 +11,50 @@ var CHANGE_EVENT = 'change';
 
 var _entryData = null;
 
-function _loadEntries(entryData) {
-  _entryData = {};
-  for (var i = 0; i < entryData.length; i++) {
-    var entry = entryData[i];
-    _entryData[entry.id] = entry;
+function _loadEntries(entryData) { _entryData = entryData; }
+function _dropEntries() { _entryData = null; }
+
+function _findEntryIdx(id) {
+  for (var i = 0; i < _entryData.length; i++) {
+    if (_entryData[i].id == id) {
+      return i;
+    }
   }
+  return null;
 }
 
-function _dropEntries() {
-  _entryData = null;
+function _findEntryByIdx(idx) {
+  if (!_entryData) { return null; }
+  if (_entryData.length - 1 < idx) { return null; }
+  return _entryData[idx];
+}
+
+function _findEntryById(id) {
+  var idx = _findEntryIdx(id);
+  if (idx) { return _findEntryByIdx(idx); }
+  return null;
 }
 
 function _addEntry(entry) {
-  if (!_entryData) {_entryData = {};}
-  _entryData[entry.id] = entry;
+  var idx = _findEntryIdx(entry.id);
+  if (idx) {
+    _entryData[idx] = entry;
+    return;
+  }
+
+  _entryData.push(entry);
 }
 
 function _removeEntry(id) {
-  delete _entryData[id];
-  if (!Object.keys(_entryData).length) {
-    _entryData = null;
+  var idx = _findEntryIdx(id);
+  if (idx) {
+    _entryData.splice(idx, 1);
   }
+}
+
+function _getRandomIdx() {
+  if (!_entryData) { return -1; }
+  return Math.floor(Math.random() * _entryData.length)
 }
 
 var EntryStore = objectAssign({}, EventEmitter.prototype, {
@@ -41,6 +63,23 @@ var EntryStore = objectAssign({}, EventEmitter.prototype, {
 
   hasEntries: function() { return !!_entryData; },
   getEntryData: function() { return _entryData; },
+  getEntry: function(id) { return _findEntryById(id); },
+  getRandomEntry: function(oldId) {
+    if (!_entryData) { return null; }
+
+    var oldIdx = null;
+    if (oldId) {
+      oldIdx = _findEntryIdx(oldId);
+    }
+
+    var randIdx = _getRandomIdx();
+
+    while (_entryData.length > 1 && oldIdx != null && oldIdx == randIdx) {
+      randIdx = _getRandomIdx();
+    }
+
+    return _findEntryByIdx(randIdx);
+  }
 });
 
 EntryStore.dispatcherToken = AppDispatcher.register(function(payload) {
