@@ -4,6 +4,10 @@ var API_BASE_URL = 'http://localhost:8000/';
 
 var Cookies = require('cookies-js');
 
+var _statusIsSuccess = function(status) {
+  return (status >= 200 && status <= 208) || status == 226;
+}
+
 window.Vocab = (function() {
   var authToken = Cookies.get('authToken');
 
@@ -12,7 +16,10 @@ window.Vocab = (function() {
     Cookies.set('authToken', token);
   }
 
-  function _send_request(method, url) {
+  function _send_request(method, params) {
+
+    var url = params.url;
+
     return new Promise(function(resolve, reject) {
       if (!authToken) {
         reject({
@@ -29,7 +36,7 @@ window.Vocab = (function() {
       req.setRequestHeader('Accept', 'application/json');
 
       req.onload = function() {
-        if (req.status == 200) {
+        if (_statusIsSuccess(req.status)) {
           var result = JSON.parse(req.response);
           resolve({
             status: req.status,
@@ -51,7 +58,16 @@ window.Vocab = (function() {
         })
       };
 
-      req.send();
+      if (params.hasOwnProperty('data')) {
+        req.send(JSON.stringify(params.data));
+        // var formData = new FormData();
+        // for (var key in params.data) {
+        //   formData.append(key, params.data[key]);
+        // }
+        // req.send(formData);
+      } else {
+        req.send();
+      }
     });
   }
 
@@ -102,11 +118,21 @@ window.Vocab = (function() {
     },
 
     getSession: function() {
-      return _send_request('GET', API_BASE_URL + 'user/');
+      return _send_request('GET', {url: API_BASE_URL + 'user/'});
     },
 
     getAllEntries: function() {
-      return _send_request('GET', API_BASE_URL + 'entries/');
+      return _send_request('GET', {url: API_BASE_URL + 'entries/'});
     },
+
+    addWord: function(word) {
+      return _send_request(
+        'POST',
+        {
+          url: API_BASE_URL + 'entries/',
+          data: {word: word}
+        }
+      );
+    }
   }
 })();
