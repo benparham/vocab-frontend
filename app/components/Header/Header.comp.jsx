@@ -4,6 +4,7 @@ var React = require('react');
 var Navigation = require('react-router').Navigation;
 
 var SessionWidget = require('../SessionWidget/SessionWidget.comp.jsx');
+var WordInput = require('../WordInput/WordInput.comp.jsx');
 
 var Header = React.createClass({
   propTypes: {
@@ -31,10 +32,7 @@ var Header = React.createClass({
           onClick={this.handleNavClick.bind(this, 'dashboard')}>
           Dashboard
         </button>
-        <input
-          id='headerWordInput'
-          type='text'
-          placeholder='Add Word'/>
+        <WordInput/>
         <SessionWidget session={this.props.session}/>
       </div>
     );

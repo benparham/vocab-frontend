@@ -78,9 +78,16 @@ var Home = React.createClass({
     }
 
     var word = entry.word;
-    var definition = '???';
+    var definitions = <p>???</p>;
     if (this.state.showDefinition) {
-      definition = entry.definition;
+      definitions = entry.definitions.map(function(item) {
+        return (
+          <div className='homeDefinition'>
+            <p className='hDIndex'>{item.rank + ':'}</p>
+            <p className='hDText'>{item.text}</p>
+          </div>
+        );
+      });
     }
 
     return (
@@ -88,8 +95,8 @@ var Home = React.createClass({
         <div id='homeWord'>
           <p>{word}</p>
         </div>
-        <div id='homeDefinition'>
-          <p>{definition}</p>
+        <div id='homeDefinitions'>
+          {definitions}
         </div>
       </div>
     );

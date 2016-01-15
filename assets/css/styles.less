@@ -89,11 +89,15 @@
     margin: 0 .5rem;
   }
 
-  #headerWordInput {
+  #wordInput {
     flex: 1 1 100%;
     margin: 5px 1rem;
-    font-size: 1rem;
-    padding: .5rem 1rem;
+
+    input {
+      width: 100%;
+      font-size: 1rem;
+      padding: .5rem 1rem;
+    }
   }
 
   #sessionWidget {
@@ -126,7 +130,7 @@
   align-items: center;
   padding: 1rem;
 
-  #homeWord, #homeDefinition {
+  #homeWord, #homeDefinitions {
     font-size: 2rem;
     display: flex;
     align-items: center;
@@ -136,5 +140,25 @@
     height: 50%;
     color: @colorTheme;
     font-weight: bold;
+  }
+
+  #homeDefinitions {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    margin: 0 2.5rem 1rem;
+
+    .homeDefinition {
+      display: flex;
+      flex-flow: row;
+      align-items: baseline;
+      margin: 1rem 0;
+
+      .hDIndex {
+        font-weight: bold;
+        color: @colorTheme;
+        margin-right: 1rem;
+      }
+    }
   }
 }
