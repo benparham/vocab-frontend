@@ -81,9 +81,15 @@ var Home = React.createClass({
     var definitions = <p>???</p>;
     if (this.state.showDefinition) {
       definitions = entry.definitions.map(function(item) {
+        var label = item.rank;
+        if (item.part_of_speech) {
+          label += ' (' + item.part_of_speech + ')';
+        }
+        label += ':';
+
         return (
           <div className='homeDefinition' key={item.id}>
-            <p className='hDIndex'>{item.rank + ':'}</p>
+            <p className='hDLabel'>{label}</p>
             <p className='hDText'>{item.text}</p>
           </div>
         );
