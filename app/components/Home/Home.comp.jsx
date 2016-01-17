@@ -3,6 +3,7 @@
 var React = require('react');
 
 var EntryStore = require('../../stores/Entry.store.js');
+var ActionTypes = require('../../constants/AppConstants').ActionTypes;
 
 var KEY_CODE_ENTER = 13;
 
@@ -29,10 +30,25 @@ var Home = React.createClass({
     }
   },
 
-  _onEntryChange: function() {
-    if (!this.state.entry ||
-        !EntryStore.getEntry(this.state.entry.id)) {
+  _onEntryChange: function(actionType, data) {
+    if (actionType == ActionTypes.ENTRY_LOAD) {
       this.fetchRandomEntry();
+    }
+
+    if (actionType == ActionTypes.ENTRY_REMOVE) {
+      console.log('Caught entry remove event');
+      if (data.entry.id == this.state.entry.id) {
+        this.fetchRandomEntry();
+      }
+    }
+
+    if (actionType == ActionTypes.ENTRY_ADD) {
+      if (this.isMounted()) {
+        this.setState({
+          entry: data.entry,
+          showDefinition: true
+        });
+      }
     }
   },
 

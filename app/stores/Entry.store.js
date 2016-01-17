@@ -39,17 +39,21 @@ function _addEntry(entry) {
   var idx = _findEntryIdx(entry.id);
   if (idx) {
     _entryData[idx] = entry;
-    return;
+    return entry;
   }
 
   _entryData.push(entry);
+  return entry;
 }
 
 function _removeEntry(id) {
   var idx = _findEntryIdx(id);
   if (idx) {
-    _entryData.splice(idx, 1);
+    var removed = _entryData.splice(idx, 1);
+    return removed[0];
   }
+
+  return null;
 }
 
 function _getRandomIdx() {
@@ -85,26 +89,27 @@ var EntryStore = objectAssign({}, EventEmitter.prototype, {
 EntryStore.dispatcherToken = AppDispatcher.register(function(payload) {
   var action = payload.action;
 
+  var emitData = {};
+
   switch(action.actionType) {
     case ActionTypes.ENTRY_LOAD:
       _loadEntries(action.data);
-      EntryStore.emit(CHANGE_EVENT);
       break;
     case ActionTypes.ENTRY_DROP:
       _dropEntries();
-      EntryStore.emit(CHANGE_EVENT);
       break;
     case ActionTypes.ENTRY_ADD:
-      _addEntry(action.data);
-      EntryStore.emit(CHANGE_EVENT);
+      emitData['entry'] = _addEntry(action.data);
       break;
     case ActionTypes.ENTRY_REMOVE:
-      _removeEntry(action.data);
-      EntryStore.emit(CHANGE_EVENT);
+      emitData['entry'] = _removeEntry(action.data);
+      if (!emitData.entry) { return false; }
       break;
     default:
       return true;
   }
+
+  EntryStore.emit(CHANGE_EVENT, action.actionType, emitData);
 });
 
 module.exports = EntryStore;

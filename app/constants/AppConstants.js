@@ -18,5 +18,5 @@ module.exports = {
 	PayloadSources: keyMirror({
 		SERVER_ACTION: null,
 		CLIENT_ACTION: null
-	})
+	})	
 };

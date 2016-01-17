@@ -16,22 +16,30 @@ var WordInput = React.createClass({
     this.setState({word: event.target.value});
   },
 
+  _clearInput: function() {
+    if (this.isMounted()) {
+      this.setState({word: ''})
+    }
+  },
+
   handleKeyDown: function(event) {
     if (event.keyCode == KEY_CODE_ENTER) {
-      // TODO: Validate input (don't post blank for example)
-      // TODO: Show spinner (remove later)
+      if (this.state.word == '') {
+        return;
+      }
 
       Vocab.addWord(this.state.word).then(
         function(result) {
           EntryActions.addEntry(result.response);
-          // TODO: Clear input, toast that word was added,
-          // set state to display new word
-        },
+          this._clearInput();
+          // alert('Added word: ' + result.response.word);
+        }.bind(this),
         function(err) {
           console.log('Error adding word:');
           console.log(err);
-          // TODO: Clear input, toast that error occurred
-        }
+          this._clearInput();
+          // alert(err);
+        }.bind(this)
       );
 
       event.stopPropagation();
