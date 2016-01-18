@@ -8,6 +8,7 @@ var SessionStore = require('../../stores/Session.store.js');
 var EntryActions = require('../../actions/Entry.actions.js');
 
 var Header = require('../Header/Header.comp.jsx');
+var Toast = require('../Toast/Toast.comp.jsx');
 
 var App = React.createClass({
   statics: {
@@ -59,6 +60,7 @@ var App = React.createClass({
         <div id='main'>
           <RouteHandler/>
         </div>
+        <Toast/>
       </div>
     );
   }

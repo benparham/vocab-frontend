@@ -100,10 +100,12 @@ EntryStore.dispatcherToken = AppDispatcher.register(function(payload) {
       break;
     case ActionTypes.ENTRY_ADD:
       emitData['entry'] = _addEntry(action.data);
+      toastMessage('\'' + emitData.entry.word + '\' added');
       break;
     case ActionTypes.ENTRY_REMOVE:
       emitData['entry'] = _removeEntry(action.data);
       if (!emitData.entry) { return false; }
+      toastMessage('\'' + emitData.entry.word + '\' removed');
       break;
     default:
       return true;

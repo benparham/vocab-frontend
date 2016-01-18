@@ -4,6 +4,9 @@
 @colorWhite: #FFFFFF;
 @colorTheme: #F6546A;
 
+@colorToastMessage: #55AB4D;
+@colorToastWarning: #E6E80C;
+@colorToastError: #F44633;
 
 // ================= CONSTANTS
 @headerHeight: 4rem;
@@ -14,6 +17,42 @@
 #main {
   margin-top: @headerHeight;
   min-height: @mainHeight;
+}
+
+#toast {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  color: @colorWhite;
+  min-height: 5rem;
+  min-width: 10rem;
+  max-width: 30rem;
+  border-radius: .5rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: none;
+
+  &.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.message {
+    background-color: fade(@colorToastMessage, 75%);
+    border: 2px solid @colorToastMessage;
+  }
+
+  &.warning {
+    background-color: fade(@colorToastWarning, 75%);
+    border: 2px solid @colorToastWarning;
+  }
+
+  &.error {
+    background-color: fade(@colorToastError, 75%);
+    border: 2px solid @colorToastError;
+  }
 }
 
 
